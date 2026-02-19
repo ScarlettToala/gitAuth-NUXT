@@ -70,7 +70,7 @@ watch(loggedIn, () => {
                 Submit
             </UButton>
         </UForm>
-        <UButton class="mt-4" @click="openInPopup('/auth/github')">
+        <UButton type="submit" class="mt-4" @click="openInPopup('/auth/github')">
             Login with Github
         </UButton>
     </UCard>
