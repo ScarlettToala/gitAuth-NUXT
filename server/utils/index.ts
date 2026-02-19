@@ -1,5 +1,4 @@
-import {db} from "../db/index";
-import * as schema from "../db/schema"
+import { db } from "../db/index";
 
-//Objeto vinculado a la base de datos
-export const useDb = () => {db}
+export const useDb = () => db;
+// export * as schema from "../db/schema";

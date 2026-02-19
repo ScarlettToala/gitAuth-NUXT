@@ -1,9 +1,15 @@
-<script setup lang="ts"> 
-definePageMeta({middleware:["auth"]});
-const {data} = useFetch("/api/admin")
+<script setup>
+definePageMeta({ middleware: ["auth"] })
+
+// lazy per renderitzar quan ho tingui el en client ???
+const { data } = useFetch('/api/admin', {
+    lazy: true
+});
+
 </script>
 
 <template>
-Ya estas registrado
-{{ data?.sensitive }}
+    <div v-if="data">
+        {{ data.sensitive }}
+    </div>
 </template>

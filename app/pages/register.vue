@@ -4,10 +4,12 @@ import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import { FetchError } from 'ofetch'
 
+
 const { loggedIn, user, session, fetch, clear, openInPopup } = useUserSession();
 
 
 const schema = z.object({
+    name: z.string(),
     email: z.string().email('Invalid email'),
     password: z.string().min(8, 'Must be at least 8 characters')
 })
@@ -15,19 +17,20 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
+    name: undefined,
     email: undefined,
     password: undefined
 })
 
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-try {
-        await $fetch('/auth/login', {
+    try {
+        await $fetch('/auth/register', {
             method: 'POST',
             body: event.data // es la ifnromación del formulario 
         })
-        toast.add({ title: 'Success', description: 'Logat amb exit', color: 'success' })
-            fetch()
+        toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
+        fetch()
     } catch (error) {
         if (error instanceof FetchError){ //erorro contorlados de fetch
             toast.add({ title: 'Error', description: error.data.message, color: 'error' })
@@ -40,7 +43,7 @@ try {
 }
 
 watch(loggedIn, () => {
-    if(loggedIn.value) {
+    if (loggedIn.value) {
         navigateTo('/admin')
     }
 })
@@ -49,8 +52,12 @@ watch(loggedIn, () => {
 
 <template>
     <UCard class="max-w-md m-auto my-10">
-        <h1 class="text-2xl text-center">Login</h1>
+        <h1 class="text-2xl text-center">Register</h1>
         <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+            <UFormField label="Nom" name="name">
+                <UInput v-model="state.name" class="w-full" />
+            </UFormField>
+
             <UFormField label="Email" name="email">
                 <UInput v-model="state.email" />
             </UFormField>
