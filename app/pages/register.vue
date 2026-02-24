@@ -32,9 +32,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
         fetch()
     } catch (error) {
-        if (error instanceof FetchError){ //erorro contorlados de fetch
+        if (error instanceof FetchError) { //erorro contorlados de fetch
             toast.add({ title: 'Error', description: error.data.message, color: 'error' })
-        } else{
+        } else {
             // errores no controlados difernetes del fetch
             toast.add({ title: 'Error', description: "Error en al aplicación. Contacte con el servicio", color: 'error' })
 
@@ -70,8 +70,12 @@ watch(loggedIn, () => {
                 Submit
             </UButton>
         </UForm>
+
         <UButton type="submit" class="mt-4" @click="openInPopup('/auth/github')">
             Login with Github
         </UButton>
+        <NuxtLink to="/login" class="block text-center mt-2 text-blue-600">
+            ¿Ya tienes cuenta? <p class="text-blue-600 hover:underline">Inicia sesión</p>
+        </NuxtLink>
     </UCard>
 </template>
