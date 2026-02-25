@@ -1,45 +1,54 @@
-import * as animalUtils from "./animalsUtils";
+// db/seeds.ts
+import { animals } from "./schema";
+import { useDb } from "../utils";
 
-export async function registerUser(name: string, email: string, password: string) {
-  const res = await useDb().insert(schema.users).values({
-    name,
-    email,
-    password: await hashPassword(password),
-    login: email
-  }).returning();
-
-  const newUser = res.at(0);
-
-  if (!newUser) {
-    throw createError({ statusCode: 500, statusMessage: "Error al registrar el usuario" });
+const galapagosAnimals = [
+  {
+    name: "Tortuga gigante de Galápagos",
+    scientificName: "Chelonoidis nigra",
+    category: "reptile",
+    seenAt: Date.now(),
+    notes: "Majestuosas y longevas",
+    imageUrl: "https://turismoanimal.es/wp-content/themes/lorraine/images/tortuga-gigante-galapagos.webp"
+  },
+  {
+    name: "Pinzón de Darwin",
+    scientificName: "Geospiza fortis",
+    category: "bird",
+    seenAt: Date.now(),
+    notes: "Famoso por la evolución",
+    imageUrl: "https://s3.animalia.bio/animals/photos/full/1.25x1/large-ground-finch.webp?id=2cf5f3181fc065e8acf64514db32f2ce"
+  },
+  {
+    name: "Iguana marina",
+    scientificName: "Amblyrhynchus cristatus",
+    category: "reptile",
+    seenAt: Date.now(),
+    notes: "Nada y toma el sol en las rocas",
+    imageUrl: "https://s3.animalia.bio/animals/photos/full/original/marine-iguana-1.webp"
+  },
+  {
+    name: "Sula patas azules",
+    scientificName: "Sula nebouxii",
+    category: "bird",
+    seenAt: Date.now(),
+    notes: "Bailan para conquistar pareja",
+    imageUrl: "https://s3.animalia.bio/animals/photos/full/original/BD383TvbWzd8YChPdZZO.webp"
+  },
+  {
+    name: "León marino de Galápagos",
+    scientificName: "Zalophus wollebaeki",
+    category: "mammal",
+    seenAt: Date.now(),
+    notes: "Comportamiento muy social en playas",
+    imageUrl: "https://s3.animalia.bio/animals/photos/full/original/sea-lion-on-north-seymour-island.webp"
   }
+];
 
-  // 🐢 Animales por defecto para este usuario
-  const defaultAnimals = [
-    {
-      name: "Tortuga Gigante",
-      scientificName: "Chelonoidis nigra",
-      category: "reptile",
-      seenAt: Date.now(),
-      notes: "Animal por defecto",
-      imageUrl: "/images/tortuga.jpg",
-      userId: newUser.id
-    },
-    {
-      name: "Pingüino de Galápagos",
-      scientificName: "Spheniscus mendiculus",
-      category: "bird",
-      seenAt: Date.now(),
-      notes: "Animal por defecto",
-      imageUrl: "/images/pinguino.jpg",
-      userId: newUser.id
-    }
-  ];
-
-  // Inserta todos los animales por defecto
-  for (const animal of defaultAnimals) {
-    await useDb().insert(schema.animals).values(animal);
+export async function seedGalapagosAnimals() {
+  const db = useDb();
+  for (const animal of galapagosAnimals) {
+    await db.insert(animals).values(animal);
   }
-
-  return newUser;
+  console.log("Animales de Galápagos insertados!");
 }

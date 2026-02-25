@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+    import { sqliteTable, text, integer} from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
     id: integer("id").primaryKey(),
@@ -23,12 +23,26 @@ export const animals = sqliteTable("animals", {
     // Multimedia
     imageUrl: text("image_url"),
 
+    // Metadata
+    createdAt: integer("created_at", { mode: "timestamp" })
+        .$defaultFn(() => sql`${Date.now()}`)
+});
+
+export const animalsSaved = sqliteTable("animals_saved", {
+    id: integer("id").primaryKey(),
+
     // Referencia de usuario FK
     userId: integer("user_id")
     .notNull()
     .references(() => users.id),
 
+    // Referencia de usuario FK
+    animalsId: integer("animals_id")
+    .notNull()
+    .references(() => animals.id),
+
     // Metadata
     createdAt: integer("created_at", { mode: "timestamp" })
-        .$defaultFn(() => Date.now())
+    .$defaultFn(() => Date.now())
 });
+
