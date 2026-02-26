@@ -1,4 +1,6 @@
 // db/seeds.ts
+//no funciono La inserción fue medianet drizzle studio con el sql console 
+ 
 import { animals } from "./schema";
 import { useDb } from "../utils";
 
@@ -47,8 +49,19 @@ const galapagosAnimals = [
 
 export async function seedGalapagosAnimals() {
   const db = useDb();
+
   for (const animal of galapagosAnimals) {
     await db.insert(animals).values(animal);
   }
+
   console.log("Animales de Galápagos insertados!");
+}
+
+if (process.argv[1]?.includes("seeds.ts")) {
+  seedGalapagosAnimals()
+    .then(() => process.exit(0))
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
 }

@@ -13,21 +13,19 @@ export async function throwIfAnimalExists(name: string, island: string) {
 
 export async function registerAnimal(
     name: string, 
-    scientificName: string | undefined, 
+    scientific_name: string | undefined, 
     category: string, 
     seenAt: number, 
     notes: string | undefined, 
-    imageUrl: string | undefined, 
-    userId: number
+    image_url: string | undefined, 
 ) {
     const data = await useDb().insert(schema.animals).values({
         name,
-        scientificName,
+        scientific_name,
         category,
         seenAt,
         notes,
-        imageUrl,
-        userId
+        image_url,
     }).returning()
 
     const newAnimal = data.at(0);

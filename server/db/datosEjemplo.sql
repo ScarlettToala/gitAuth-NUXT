@@ -1,0 +1,6 @@
+INSERT INTO animals (name, scientific_name, category, seen_at, notes, image_url) VALUES
+('Tortuga gigante de Galápagos', 'Chelonoidis nigra', 'reptile', strftime('%s','now')*1000, 'Majestuosas y longevas', 'https://turismoanimal.es/wp-content/themes/lorraine/images/tortuga-gigante-galapagos.webp'),
+('Pinzón de Darwin', 'Geospiza fortis', 'bird', strftime('%s','now')*1000, 'Famoso por la evolución', 'https://s3.animalia.bio/animals/photos/full/1.25x1/large-ground-finch.webp?id=2cf5f3181fc065e8acf64514db32f2ce'),
+('Iguana marina', 'Amblyrhynchus cristatus', 'reptile', strftime('%s','now')*1000, 'Nada y toma el sol en las rocas', 'https://s3.animalia.bio/animals/photos/full/original/marine-iguana-1.webp'),
+('Sula patas azules', 'Sula nebouxii', 'bird', strftime('%s','now')*1000, 'Bailan para conquistar pareja', 'https://s3.animalia.bio/animals/photos/full/original/BD383TvbWzd8YChPdZZO.webp'),
+('León marino de Galápagos', 'Zalophus wollebaeki', 'mammal', strftime('%s','now')*1000, 'Comportamiento muy social en playas', 'https://s3.animalia.bio/animals/photos/full/original/sea-lion-on-north-seymour-island.webp');

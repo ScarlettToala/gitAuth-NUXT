@@ -3,8 +3,8 @@
 </script>
 
 <template>
-  <NavBar/>
-  <NuxtPage/>
+    <NavBar/>
+    <NuxtPage/>
 </template>
 
 <style>
