@@ -12,4 +12,10 @@ const { data } = useFetch('/api/admin', {
     <div v-if="data">
         {{ data.sensitive }}
     </div>
+    <NuxtLink to="/animalesCatalogo">
+        Ver los animales guardados
+    </NuxtLink>
+    <NuxtLink to="/catalogo">
+        Ver los animales disponibles
+    </NuxtLink>
 </template>

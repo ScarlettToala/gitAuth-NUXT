@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import * as schema from "../db/schema";
-import { useDb } from "../utils";
+import * as schema from "../../db/schema";
+import { useDb } from "../../utils";
 
 export default defineEventHandler(async (event) => {
   const session = await requireUserSession(event);
@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   if (!session?.user?.id) {
     throw createError({
       statusCode: 401,
-      statusMessage: "No autenticado"
+      statusMessage: "No autenticado",
     });
   }
 
