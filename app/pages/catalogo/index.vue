@@ -5,25 +5,33 @@ import AnimalCard from "@/components/animalCard.vue";
 const { data: animals, refresh } = await useFetch("/api/animals");
 const message = ref("");
 
+
 const guardarAnimal = async (animalId: number) => {
     try {
-        await $fetch("/api/animalsSaved", {
-            method: "POST",
+        await $fetch("/api/animals_saved", {
+            method: 'POST',
             body: { animalId },
-            credentials: "include" 
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'  // 🔑 importante
         });
 
         message.value = "Animal guardado 🐾";
     } catch (error) {
+        console.error("Error real: " , error);
         message.value = "Error al guardar";
     }
 };
 </script>
 
 <template>
-    <div class="catalogo">
-        <h1>Catálogo</h1>
-
+        
+        <header class="cabecera">
+            <h1>Catálogo</h1>
+            <NuxtLink to="/catalogo/nuevo" class="btn-crear">
+                ➕ Añadir Nuevo Animal
+            </NuxtLink>
+        </header>
+<div class="catalogo">
         <div class="grid">
             <div v-for="animal in animals" :key="animal.id" class="card">
                 <AnimalCard :animal="animal" />
@@ -35,7 +43,7 @@ const guardarAnimal = async (animalId: number) => {
         </div>
 
         <p v-if="message">{{ message }}</p>
-        <NuxtLink to="/animalesCatalogo">
+        <NuxtLink to="/animalesGuardados">
             Ver los animales guardados
         </NuxtLink>
     </div>

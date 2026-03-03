@@ -17,7 +17,7 @@ export async function registerAnimal(
     category: string, 
     seenAt: number, 
     notes: string | undefined, 
-    image_url: string | undefined, 
+    imageUrl: string | undefined, 
 ) {
     const data = await useDb().insert(schema.animals).values({
         name,
@@ -25,7 +25,7 @@ export async function registerAnimal(
         category,
         seenAt,
         notes,
-        image_url,
+        imageUrl,
     }).returning()
 
     const newAnimal = data.at(0);

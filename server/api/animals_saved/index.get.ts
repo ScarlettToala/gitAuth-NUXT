@@ -3,15 +3,18 @@ import * as schema from "../../db/schema";
 import { useDb } from "../../utils";
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
-  const db = useDb();
+  const session = await getUserSession(event);
+  
+    const db = useDb();
 
-  if (!session?.user?.id) {
+  if (!session?.user) {
     throw createError({
       statusCode: 401,
       statusMessage: "No autenticado",
     });
   }
+
+  const userId = Number(session?.user?.id);
 
   const animals = await db
     .select({
@@ -21,14 +24,14 @@ export default defineEventHandler(async (event) => {
       category: schema.animals.category,
       seenAt: schema.animals.seenAt,
       notes: schema.animals.notes,
-      image_url: schema.animals.image_url,
+      imageUrl: schema.animals.imageUrl,
     })
     .from(schema.animals)
     .innerJoin(
       schema.animalsSaved,
       eq(schema.animals.id, schema.animalsSaved.animalsId)
     )
-    .where(eq(schema.animalsSaved.userId, session.user.id));
+    .where(eq(schema.animalsSaved.userId, userId));
 
   return animals ?? [];
 });

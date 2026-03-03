@@ -28,19 +28,60 @@ onMounted(() => {
       <AnimalCard v-if="animal" :animal="animal" />
 
       <!-- Botón para cambiar animal -->
-      <button 
-        @click="getRandomAnimal" 
-        class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
-      >
+      <button @click="getRandomAnimal"
+        class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 transition-colors">
         Mostrar otro animal
       </button>
     </main>
   </section>
+
+  <div class="actions">
+    <NuxtLink to="/animalesCatalogo" class="action-link">
+      Ver Mis Animales Guardados
+    </NuxtLink>
+    <NuxtLink to="/catalogo/index" class="action-link">
+      Guardar un nuevo animal
+    </NuxtLink>
+  </div>
 </template>
 
 <style scoped>
 /* Opcional: estilos adicionales para animaciones o ajustes */
 main {
   width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  /* separación entre los links */
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  /* si la pantalla es pequeña se acomoda */
+}
+
+.action-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  /* azul principal */
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.action-link:hover {
+  background-color: #0056b3;
+  /* azul más oscuro al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+.action-link:active {
+  background-color: #004085;
+  /* azul aún más oscuro al hacer clic */
 }
 </style>

@@ -1,66 +1,75 @@
 import { eq } from "drizzle-orm";
 import * as schema from "../../db/schema";
-
+import { useDb } from "../../utils";
+import { sendRedirect } from "h3";
 
 export default defineOAuthGitHubEventHandler({
   config: {
     emailRequired: true
   },
   async onSuccess(event, { user, tokens }) {
-    await setUserSession(event, {
-      user: {
-        login: user.login
-      }
-    });
-
-    // comprovar si usuari github existeix a la meva base de dades
+    //  Verificar que GitHub nos dio un email
     if (!user.email) {
       throw createError({
         status: 500,
         statusMessage: "No s'ha proporcionat l'email del teu compte Github"
-      })
+      });
     }
 
+    let finalUser;
     const db = useDb();
+
+    //  Buscar usuario en nuestra DB
     let existingUser = await db.query.users.findFirst({
       where: eq(schema.users.email, user.email)
     });
 
-    // si no existeix, creem un registre (insert) a la nostra db
+    //  Si no existe, creamos el usuario
     if (!existingUser) {
-      const result = db.insert(schema.users).values({
+      const result = await db.insert(schema.users).values({
         email: user.email,
         login: user.login,
         name: user.name
-      }).returning()
-      //.returning --> ens retorna resultat (?)
+      }).returning({ id: schema.users.id });
 
-      existingUser = (await result).at(0)
+      finalUser = {
+        id: result[0].id,
+        email: user.email,
+        login: user.login,
+        name: user.name
+      };
+    } else {
+      finalUser = existingUser;
     }
 
-    // si arribo fins aquí vol dir que ja és error de Github
-    if (!existingUser) {
+    //  Si aún no hay usuario, lanzamos error
+    if (!finalUser) {
       throw createError({
         status: 500,
         statusMessage: "Error d'autentificació Github"
-      })
+      });
     }
 
-    // desestructuro usuari per si de cas em ve amb contrasenya
-    const { password, ...userWithoutPswd } = existingUser
+    //  Desestructuramos para quitar la contraseña si existiera
+    const { password, ...userWithoutPswd } = finalUser;
+
+    //  Guardamos la sesión completa con id, login, name, email
     await setUserSession(event, {
       user: {
-        login: user.login
-      }
-    }) //api de Nuxt
+        id: finalUser.id,
+        email: finalUser.email,
+        name: finalUser.name,
+        login: finalUser.login
+      },
+      loggedInAt: new Date().toISOString() // Esto ayuda a refrescar la cookie
+    });
 
-    //db.insert(users).values({})
-    return sendRedirect(event, '/');
+    //  Redirigimos al catálogo (o donde quieras)
+    return sendRedirect(event, '/catalogo');
   },
 
-  // Optional, will return a json error and 401 status code by default
   onError(event, error) {
-    console.error('GitHub OAuth error:', error)
-    return sendRedirect(event, '/')
-  },
-})
+    console.error('GitHub OAuth error:', error);
+    return sendRedirect(event, '/');
+  }
+});

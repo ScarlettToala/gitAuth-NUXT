@@ -1,20 +1,23 @@
 import { eq, and } from "drizzle-orm";
 import * as schema from "../../db/schema";
 import { useDb } from "../../utils";
+import { getUserID } from '../../utils/getUserID'
 
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
-  const db = useDb();
-  const body = await readBody(event);
 
-  if (!session?.user?.id) {
+  const userId = await getUserID(event)
+
+  const body = await readBody(event);
+  const db = useDb();
+  const animalId = Number(body.animalId)
+
+  if (!userId) {
     throw createError({
       statusCode: 401,
       statusMessage: "No autenticado",
     });
   }
 
-  const { animalId } = body;
 
   if (!animalId) {
     throw createError({
@@ -24,22 +27,19 @@ export default defineEventHandler(async (event) => {
   }
 
   // Evitar duplicados
-  const existing = await db
-    .select()
-    .from(schema.animalsSaved)
-    .where(
-      and(
-        eq(schema.animalsSaved.userId, session.user.id),
-        eq(schema.animalsSaved.animalsId, animalId)
-      )
-    );
+  const existing = await db.query.animalsSaved.findFirst({
+    where: and(
+      eq(schema.animalsSaved.userId, userId),
+      eq(schema.animalsSaved.animalsId, animalId)
+    )
+  });
 
-  if (existing.length > 0) {
+  if (existing) {
     return { message: "Ya está guardado" };
   }
 
   await db.insert(schema.animalsSaved).values({
-    userId: session.user.id,
+    userId: userId,
     animalsId: animalId,
   });
 

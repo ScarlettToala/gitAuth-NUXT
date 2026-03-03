@@ -1,9 +1,9 @@
 // shared/types/auth.d.ts
 declare module '#auth-utils' {
     interface User {
-        id: String,
-        name: String,
-        login: String,
+        id: number | null,
+        name: string | null,
+        login: string,
     }
 
     interface UserSession {

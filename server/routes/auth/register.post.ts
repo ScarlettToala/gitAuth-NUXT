@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
     // 4) Creo un usuari
     const newUser = await registerUser(name, email, password);
-
+    
     //5) Desestructurem i creem la sessió (?)
     const {password: repassword, ...userWithoutPassword} = newUser
 

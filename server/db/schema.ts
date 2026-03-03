@@ -21,7 +21,7 @@ export const animals = sqliteTable("animals", {
     notes: text("notes"),
 
     // Multimedia
-    image_url: text("image_url"),
+    imageUrl: text("image_url"),
 
 });
 
