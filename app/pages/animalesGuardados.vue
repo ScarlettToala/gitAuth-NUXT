@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AnimalCard from "@/components/animalCard.vue";
 
-const { data: animals, pending, error } = await useFetch("/api/animals_saved");
+const { data: animals, pending, error, refresh } = await useFetch("/api/animals_saved");
 
 // Creamos la función para borrar
 const eliminarAnimal = async (id: number) => {
@@ -13,7 +13,7 @@ const eliminarAnimal = async (id: number) => {
             method: 'DELETE'
         });
 
-        // 3️⃣ Recargamos la lista automáticamente
+        //  Recargamos la lista automáticamente
         await refresh();
     } catch (err) {
         console.error("Error al eliminar:", err);
@@ -38,15 +38,15 @@ const eliminarAnimal = async (id: number) => {
         <div v-else>
             <div v-if="animals?.length" class="grid">
                 <div v-for="animal in animals" :key="animal.id" class="animal-wrapper">
-                    
+
                     <AnimalCard :animal="animal" />
-                    
+
                     <button @click="eliminarAnimal(animal.id)" class="btn-eliminar">
                         Quitar de mi lista
                     </button>
 
                 </div>
-                
+
             </div>
 
             <p v-else>No tienes animales guardados todavía.</p>
@@ -61,53 +61,99 @@ const eliminarAnimal = async (id: number) => {
 </template>
 
 <style scoped>
-.actions {
-    display: flex;
-    gap: 16px;
-    /* separación entre los links */
-    justify-content: center;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    /* si la pantalla es pequeña se acomoda */
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.catalogo {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-.action-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    /* azul principal */
-    color: #fff;
-    font-weight: 600;
-    border-radius: 8px;
-    text-decoration: none;
+/* ===== TÍTULO ===== */
+.catalogo h1 {
     text-align: center;
-    transition: background-color 0.2s, transform 0.2s;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    letter-spacing: 0.5px;
 }
 
-.action-link:hover {
-    background-color: #0056b3;
-    /* azul más oscuro al pasar el mouse */
-    transform: translateY(-2px);
+/* ===== GRID RESPONSIVE ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
 }
 
-.action-link:active {
-    background-color: #004085;
-    /* azul aún más oscuro al hacer clic */
+/* ===== WRAPPER DE CADA CARD ===== */
+.animal-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.25s ease;
 }
 
+.animal-wrapper:hover {
+    transform: translateY(-4px);
+}
+
+/* ===== BOTÓN ELIMINAR ===== */
 .btn-eliminar {
-    background-color: #dc3545;
-    /* Rojo de eliminar */
+    background: linear-gradient(135deg, #ef4444, #dc2626);
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 10px 14px;
+    border-radius: 10px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25);
 }
 
 .btn-eliminar:hover {
-    background-color: #c82333;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(220, 38, 38, 0.35);
+}
+
+.btn-eliminar:active {
+    transform: scale(0.97);
+}
+
+/* ===== MENSAJES (loading, error, vacío) ===== */
+.catalogo>div {
+    text-align: center;
+    font-size: 1rem;
+    color: #64748b;
+    margin-top: 20px;
+}
+
+/* ===== SECCIÓN DE ACCIONES ===== */
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* ===== LINK PRINCIPAL ===== */
+.action-link {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+}
+
+.action-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4);
+}
+
+.action-link:active {
+    transform: scale(0.97);
 }
 </style>

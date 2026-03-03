@@ -29,89 +29,120 @@ defineProps<{ animal: any }>();
 </script>
 
 <style scoped>
-/* Ajustes generales del contenido */
+/* ===== CARD GENERAL ===== */
+.mi-ucard {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+}
+
+.mi-ucard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== TÍTULO ===== */
 h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.8rem;
-  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+  color: #1e293b;
   text-align: center;
+  font-weight: 600;
+}
+
+/* ===== TEXTO ===== */
+.info-texto {
+  margin-bottom: 0.8rem;
 }
 
 .info-texto p {
-  margin: 4px 0;
+  margin: 6px 0;
   font-size: 0.95rem;
+  color: #475569;
 }
 
+/* ===== BADGE ===== */
 .badge {
-  background-color: #e2e8f0;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.85em;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   text-transform: capitalize;
 }
 
+/* ===== NOTAS ===== */
 .notas {
-  color: #666;
+  color: #64748b;
   font-size: 0.85rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
-  /* Limita las notas a 2 líneas para que las tarjetas midan igual */
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 1.4;
 }
 
-/* 🌟 Imagen 100% responsiva (mejor que width="300") */
+/* ===== IMAGEN ===== */
 .imagen-contenedor {
   margin-top: 1rem;
   width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .imagen-contenedor img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  /* Recorta la imagen sin deformarla */
-  border-radius: 8px;
+  transition: transform 0.4s ease;
 }
 
-/* 🌟 Flexbox para alinear los botones mitad y mitad */
+.imagen-contenedor img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== BOTONES ===== */
 .acciones {
   display: flex;
-  gap: 10px;
-  margin-top: 1rem;
+  gap: 12px;
+  margin-top: 1.2rem;
 }
 
 .btn-detalle,
 .btn-editar {
   flex: 1;
-  /* Hacen que ocupen el 50% cada uno */
   text-align: center;
   text-decoration: none;
-  padding: 8px;
-  border-radius: 6px;
-  font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 600;
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
-/* Colores de los botones */
+/* Botón detalle */
 .btn-detalle {
-  background-color: #e2e8f0;
-  color: #334155;
+  background: #f1f5f9;
+  color: #1e293b;
 }
 
 .btn-detalle:hover {
-  background-color: #cbd5e1;
-  transform: translateY(-2px);
+  background: #e2e8f0;
+  transform: translateY(-3px);
 }
 
+/* Botón editar */
 .btn-editar {
-  background-color: #ffc107;
-  color: #333;
+  background: linear-gradient(135deg, #facc15, #f59e0b);
+  color: #1e293b;
 }
 
 .btn-editar:hover {
-  background-color: #e0a800;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(245, 158, 11, 0.35);
 }
 </style>

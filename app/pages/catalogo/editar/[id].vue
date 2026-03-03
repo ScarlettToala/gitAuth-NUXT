@@ -99,7 +99,7 @@ const actualizarAnimal = async () => {
             </div>
 
             <div class="form-group">
-                <label for="seenAt">Fecha de Avistamiento *</label>
+                <label for="seenAt">Fecha de Avistamiento y hora *</label>
                 <input v-model="form.seenAt" type="datetime-local" id="seenAt" required />
             </div>
 
@@ -124,6 +124,13 @@ const actualizarAnimal = async () => {
 </template>
 
 <style scoped>
+h1{
+    text-align: center;
+    margin-bottom: 24px;
+    color:#333;
+    font-size: 2rem;
+    font-weight: bold;
+}
 /* Son los mismos estilos que usamos en nuevo.vue */
 .form-container {
     max-width: 600px;
@@ -152,6 +159,10 @@ const actualizarAnimal = async () => {
     flex: 1 1 calc(50% - 16px);
     display: flex;
     flex-direction: column;
+}
+
+input, select, textarea {
+    color:black;
 }
 
 .form-group.full-width {

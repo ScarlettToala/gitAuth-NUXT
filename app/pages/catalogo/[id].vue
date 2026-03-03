@@ -45,53 +45,118 @@ const { data: animal, pending, error } = await useFetch(`/api/animals/${animalId
 </template>
 
 <style scoped>
+/* ===== CONTENEDOR GENERAL ===== */
 .animal-detalle {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 720px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
 
+/* ===== CARD PRINCIPAL ===== */
 .detalle-card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
+.detalle-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== TÍTULOS ===== */
+.detalle-card h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.detalle-card h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #64748b;
+  margin-bottom: 14px;
+}
+
+/* ===== BADGE ===== */
 .badge {
-    display: inline-block;
-    background-color: #e2e8f0;
-    color: #475569;
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 0.9em;
-    margin-bottom: 16px;
-    text-transform: capitalize;
+  display: inline-block;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+}
+
+/* ===== INFO ===== */
+.info {
+  margin-top: 10px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.info p {
+  margin: 8px 0;
+}
+
+/* ===== IMAGEN ===== */
+.imagen-contenedor {
+  margin-top: 24px;
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 .imagen-contenedor img {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-top: 16px;
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
+.imagen-contenedor img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== BOTÓN ===== */
 .actions {
-    margin-top: 24px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .btn-volver {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #64748b;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.2s;
+  display: inline-block;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #64748b, #475569);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(71, 85, 105, 0.25);
 }
 
 .btn-volver:hover {
-    background-color: #475569;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(71, 85, 105, 0.35);
+}
+
+.btn-volver:active {
+  transform: scale(0.97);
+}
+
+/* ===== MENSAJES DE ESTADO ===== */
+.animal-detalle > div {
+  text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+  margin-top: 30px;
 }
 </style>

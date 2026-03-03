@@ -101,6 +101,27 @@ const guardarNuevoAnimal = async () => {
 </template>
 
 <style scoped>
+h1{
+    text-align: center;
+    margin-bottom: 24px;
+    color:#333;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Placeholder en color negro */
+input::placeholder {
+  color: rgb(150, 150, 150);
+  opacity: 1; /* Opcional: por defecto algunos navegadores lo hacen más tenue */
+}
+
+
+
+input, select, textarea {
+    color:black;
+}
+
+
 .form-container {
     max-width: 600px;
     margin: 0 auto;
