@@ -4,7 +4,7 @@ import type { H3Event } from 'h3'
 import { useDb } from '../utils'
 
 export async function getUserID(event: H3Event) {
-    // 1️⃣ Obtener sesión (¡CON AWAIT!)
+    // Obtener sesión (¡CON AWAIT!)
     // Nota: No necesitas importar getUserSession, Nuxt lo inyecta globalmente
     const session = await getUserSession(event)
     
@@ -21,10 +21,10 @@ export async function getUserID(event: H3Event) {
         })
     }
 
-    // 2️⃣ Intentar obtener el ID
+    //  Intentar obtener el ID
     let userId: number | undefined = sessionUser.id ? Number(sessionUser.id) : undefined
 
-    // 3️⃣ Si no hay ID pero sí email, buscamos en DB (Backup por si acaso)
+    // Si no hay ID pero sí email, buscamos en DB (Backup por si acaso)
     if (!userId && sessionUser.email) {
         console.warn("[DEBUG] ID no encontrado en sesión, buscando por email:", sessionUser.email)
         const db = useDb()
@@ -37,7 +37,7 @@ export async function getUserID(event: H3Event) {
         }
     }
 
-    // 4️⃣ Validación final
+    // Validación final
     if (!userId || isNaN(userId)) {
         console.error(" [DEBUG] Resultado final: Usuario no identificado")
         throw createError({
