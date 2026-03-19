@@ -14,7 +14,7 @@ export async function getUserID(event: H3Event) {
     const sessionUser = session?.user
 
     if (!sessionUser) {
-        console.error("❌ [DEBUG] No hay usuario en la sesión")
+        console.error(" [DEBUG] No hay usuario en la sesión")
         throw createError({
             statusCode: 401,
             statusMessage: 'Sesión no encontrada'
@@ -26,7 +26,7 @@ export async function getUserID(event: H3Event) {
 
     // 3️⃣ Si no hay ID pero sí email, buscamos en DB (Backup por si acaso)
     if (!userId && sessionUser.email) {
-        console.warn("⚠️ [DEBUG] ID no encontrado en sesión, buscando por email:", sessionUser.email)
+        console.warn("[DEBUG] ID no encontrado en sesión, buscando por email:", sessionUser.email)
         const db = useDb()
         const userFromDb = await db.query.users.findFirst({
             where: eq(schema.users.email, sessionUser.email)
@@ -39,13 +39,13 @@ export async function getUserID(event: H3Event) {
 
     // 4️⃣ Validación final
     if (!userId || isNaN(userId)) {
-        console.error("❌ [DEBUG] Resultado final: Usuario no identificado")
+        console.error(" [DEBUG] Resultado final: Usuario no identificado")
         throw createError({
             statusCode: 401,
             statusMessage: 'Usuario no autenticado o no encontrado en BD'
         })
     }
 
-    console.log("✅ [DEBUG] ID de usuario final:", userId)
+    console.log(" [DEBUG] ID de usuario final:", userId)
     return userId
 }
