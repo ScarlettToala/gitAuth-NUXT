@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     }
   },
 routeRules: {
-    '/api/**': {
+    '/**': {
       cors: true,
       headers: {
         // Ponemos la URL exacta de tu Quasar (sin la barra / al final)
@@ -29,6 +29,9 @@ routeRules: {
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
+      
     }
+    
   }
+  
 });
