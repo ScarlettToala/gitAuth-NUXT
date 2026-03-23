@@ -1,35 +1,53 @@
 import { useDb } from "../../utils";
 import { animals } from "../../db/schema";
-// import { getUserID } from "../../utils/getUserID"; // Descomenta si solo usuarios logueados pueden crear
+import { eq } from "drizzle-orm"; 
 
 export default defineEventHandler(async (event) => {
   const db = useDb();
+  
+  // 1. LEER EL ID DESDE LA URL (Lo más importante) ✨
+  const animalId = Number(event.context.params?.id); 
+  
   const body = await readBody(event);
 
-  // Validamos que vengan los campos obligatorios (los que tienen .notNull() en tu schema)
-  if (!body.name || !body.category || !body.seenAt) {
+  if (!animalId) {
     throw createError({
       statusCode: 400,
-      statusMessage: "Faltan campos obligatorios: nombre, categoría o fecha de avistamiento.",
+      statusMessage: "Falta el ID del animal en la URL.",
     });
   }
 
-  // Insertamos el nuevo animal
-  const nuevoAnimal = await db
-    .insert(animals)
-    .values({
+  // 2. Validar campos obligatorios
+  if (!body.name || !body.category) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Faltan campos obligatorios.",
+    });
+  }
+
+  // 3. ACTUALIZAR usando el animalId de la URL
+  const animalActualizado = await db
+    .update(animals)
+    .set({
       name: body.name,
       scientific_name: body.scientific_name,
       category: body.category,
-      // Convertimos el string que viene del formulario a formato Date
       seenAt: new Date(body.seenAt), 
       notes: body.notes,
       imageUrl: body.imageUrl,
     })
-    .returning(); // .returning() nos devuelve el animal recién creado con su nuevo ID
+    .where(eq(animals.id, animalId)) // Aquí usamos el ID que viene de la URL
+    .returning();
+
+  if (!animalActualizado.length) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: "No se encontró el animal para actualizar.",
+    });
+  }
 
   return { 
-    message: "¡Animal creado con éxito!",
-    animal: nuevoAnimal[0] 
+    message: "¡Animal editado con éxito!",
+    animal: animalActualizado[0] 
   };
 });

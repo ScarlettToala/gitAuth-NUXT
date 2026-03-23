@@ -2,17 +2,22 @@
 import { ref } from "vue";
 import AnimalCard from "@/components/animalCard.vue";
 
+// 1️⃣ Importamos el estado de la sesión
+const { loggedIn } = useUserSession();
+
 const { data: animals, refresh } = await useFetch("/api/animals");
 const message = ref("");
 
-
 const guardarAnimal = async (animalId: number) => {
+    // Protección extra por si alguien intenta llamar a la función por consola
+    if (!loggedIn.value) return;
+
     try {
         await $fetch("/api/animals_saved", {
             method: 'POST',
             body: { animalId },
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'  // 🔑 importante
+            credentials: 'include'
         });
 
         message.value = "Animal guardado 🐾";
@@ -21,32 +26,39 @@ const guardarAnimal = async (animalId: number) => {
         message.value = "Error al guardar";
     }
 };
+
+
 </script>
 
 <template>
-        
-        <header class="cabecera">
-            <h1>Catálogo</h1>
-            <NuxtLink to="/catalogo/nuevo" class="btn-crear">
-                ➕ Añadir Nuevo Animal
-            </NuxtLink>
-        </header>
-<div class="catalogo">
+    <header class="cabecera">
+        <h1>Catálogo</h1>
+        <NuxtLink v-if="loggedIn" to="/catalogo/nuevo" class="btn-crear">
+            ➕ Añadir Nuevo Animal
+        </NuxtLink>
+    </header>
+
+    <div class="catalogo">
         <div class="grid">
             <div v-for="animal in animals" :key="animal.id" class="card">
                 <AnimalCard :animal="animal" />
 
-                <button @click="guardarAnimal(animal.id)">
+                <button v-if="loggedIn" @click="guardarAnimal(animal.id)">
                     Guardar
                 </button>
             </div>
         </div>
 
         <p v-if="message">{{ message }}</p>
-        <div class="actions">
-        <NuxtLink to="/animalesGuardados" class="action-link">
-            Ver los animales guardados
-        </NuxtLink>
+
+        <div v-if="loggedIn" class="actions">
+            <NuxtLink to="/animalesGuardados" class="action-link">
+                Ver mis animales guardados
+            </NuxtLink>
+        </div>
+        
+        <div v-else class="actions">
+            <p class="text-gray-500">Inicia sesión para guardar o añadir animales.</p>
         </div>
     </div>
 </template>

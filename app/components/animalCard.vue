@@ -12,12 +12,12 @@
       <img :src="animal.imageUrl" :alt="animal.name" />
     </div>
 
-    <div class="acciones">
+    <div class="acciones" >
       <NuxtLink :to="`/catalogo/${animal.id}`" class="btn-detalle">
         👁️ Ver detalle
       </NuxtLink>
 
-      <NuxtLink :to="`/catalogo/editar/${animal.id}`" class="btn-editar">
+      <NuxtLink :to="`/catalogo/editar/${animal.id}`" v-if="loggedIn" class="btn-editar">
         ✏️ Editar
       </NuxtLink>
     </div>
@@ -25,7 +25,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ animal: any }>();
+const { loggedIn } = useUserSession();
+defineProps(['animal']);
+
+
 </script>
 
 <style scoped>

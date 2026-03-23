@@ -14,14 +14,6 @@ const { data } = useFetch('/api/admin', {
             {{ data.sensitive }}
         </div>
 
-        <div class="actions">
-            <NuxtLink to="/animalesCatalogo" class="action-link">
-                Ver Mis Animales Guardados
-            </NuxtLink>
-            <NuxtLink to="/catalogo/index" class="action-link">
-                Guardar un nuevo animal
-            </NuxtLink>
-        </div>
     </div>
 </template>
 

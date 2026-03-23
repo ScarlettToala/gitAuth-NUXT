@@ -36,10 +36,10 @@ onMounted(() => {
   </section>
 
   <div class="actions">
-    <NuxtLink to="/animalesCatalogo" class="action-link">
+    <NuxtLink to="/animalesGuardados" class="action-link">
       Ver Mis Animales Guardados
     </NuxtLink>
-    <NuxtLink to="/catalogo/index" class="action-link">
+    <NuxtLink to="/catalogo" class="action-link">
       Guardar un nuevo animal
     </NuxtLink>
   </div>

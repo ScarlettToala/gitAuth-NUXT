@@ -53,7 +53,7 @@ const eliminarAnimal = async (id: number) => {
         </div>
 
         <div class="actions">
-            <NuxtLink to="/catalogo/index" class="action-link">
+            <NuxtLink to="/catalogo" class="action-link">
                 Ver catálogo de animales
             </NuxtLink>
         </div>

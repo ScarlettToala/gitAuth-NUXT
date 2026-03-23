@@ -64,10 +64,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         loading.value = false
     }
 }
-// El backend le grita el token a la ventana principal de Quasar (que suele estar en el puerto 9000)
-  window.opener.postMessage({ token: 'AQUI_EL_JWT_GENERADO' }, 'http://localhost:9000');
-  // Luego el popup se suicida felizmente
-  window.close();
+// // El backend le grita el token a la ventana principal de Quasar (que suele estar en el puerto 9000)
+//   window.opener.postMessage({ token: 'AQUI_EL_JWT_GENERADO' }, 'http://localhost:9000');
+//   // Luego el popup se suicida felizmente
+//   window.close();
   
 /* ========================
    Auto redirect
