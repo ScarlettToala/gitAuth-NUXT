@@ -1,21 +1,15 @@
 import { eq } from "drizzle-orm";
 import * as schema from "../../db/schema";
 import { useDb } from "../../utils";
+import { requireAuthUserId } from "../../utils/auth"; // <-- Importar la función Uso de token
 
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-  
-    const db = useDb();
+  const db = useDb();
 
-  if (!session?.user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "No autenticado",
-    });
-  }
+  // Esta línea lee Tokens de Quasar Y Cookies de Nuxt.
+  const userId = await requireAuthUserId(event); 
 
-  const userId = Number(session?.user?.id);
-
+  // Hacemos la consulta 
   const animals = await db
     .select({
       id: schema.animals.id,

@@ -130,3 +130,4 @@ Exemple: const { data: tasks } = await useFetch<Task[]>('/api/tasks').
 3. Validació Doble (Zod)
 A classe heu vist Zod al frontend dins del <UForm>.
 Fes servir el mateix esquema de Zod (readBody i parse) al Backend. 
+

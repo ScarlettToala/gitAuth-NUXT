@@ -1,15 +1,14 @@
 import { eq, and } from "drizzle-orm";
 import * as schema from "../../db/schema";
 import { useDb } from "../../utils";
-import { getUserID } from '../../utils/getUserID'
+import { requireAuthUserId } from "../../utils/auth"; //  Importas tu función mágica
 
 export default defineEventHandler(async (event) => {
-
-  const userId = await getUserID(event)
 
   const body = await readBody(event);
   const db = useDb();
   const animalId = Number(body.animalId)
+  const userId = await requireAuthUserId(event);
 
   if (!userId) {
     throw createError({
