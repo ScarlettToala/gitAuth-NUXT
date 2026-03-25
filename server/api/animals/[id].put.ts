@@ -1,11 +1,16 @@
 import { useDb } from "../../utils";
 import { animals } from "../../db/schema";
 import { eq } from "drizzle-orm"; 
+// 👇 Importa tu función
+import { requireAuthUserId } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const db = useDb();
   
-  // 1. LEER EL ID DESDE LA URL (Lo más importante) ✨
+  // 👇 PROTEGEMOS LA RUTA (Asegura que el usuario esté logueado)
+  const userId = await requireAuthUserId(event);
+  
+  // 1. LEER EL ID DESDE LA URL
   const animalId = Number(event.context.params?.id); 
   
   const body = await readBody(event);
@@ -17,7 +22,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // 2. Validar campos obligatorios
   if (!body.name || !body.category) {
     throw createError({
       statusCode: 400,
@@ -25,18 +29,18 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // 3. ACTUALIZAR usando el animalId de la URL
+  // 3. ACTUALIZAR
   const animalActualizado = await db
     .update(animals)
     .set({
       name: body.name,
       scientific_name: body.scientific_name,
       category: body.category,
-      seenAt: new Date(body.seenAt), 
+      seenAt: body.seenAt ? new Date(body.seenAt) : undefined, 
       notes: body.notes,
       imageUrl: body.imageUrl,
     })
-    .where(eq(animals.id, animalId)) // Aquí usamos el ID que viene de la URL
+    .where(eq(animals.id, animalId))
     .returning();
 
   if (!animalActualizado.length) {

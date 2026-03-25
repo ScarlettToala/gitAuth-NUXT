@@ -1,22 +1,22 @@
 import { useDb } from "../../utils";
 import { eq, and } from "drizzle-orm";
 import * as schema from "../../db/schema";
-import { getUserID } from "../../utils/getUserID";
+import { requireAuthUserId } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
   const db = useDb();
   
-  // 1️⃣ Verificamos quién es el usuario autenticado
-  const userId = await getUserID(event);
+  // Verificamos quién es el usuario autenticado
+  const userId = await requireAuthUserId(event);
   
-  // 2️⃣ Obtenemos el ID del animal que viene en la URL (/api/animals_saved/5)
+  // Obtenemos el ID del animal que viene en la URL (/api/animals_saved/5)
   const animalId = Number(event.context.params?.id);
 
   if (!animalId) {
     throw createError({ statusCode: 400, statusMessage: "Falta el ID del animal" });
   }
 
-  // 3️⃣ ¡ATENCIÓN! Borramos de 'animalsSaved', NO de 'animals'
+  // ¡ATENCIÓN! Borramos de 'animalsSaved', NO de 'animals'
   // Y nos aseguramos de que el userId coincida, para que no borre los de otro usuario
   await db
     .delete(schema.animalsSaved)

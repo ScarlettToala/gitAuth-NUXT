@@ -1,14 +1,14 @@
 import { useDb } from "../../utils";
 import * as schema from "../../db/schema";
 import { eq } from "drizzle-orm";
+import { requireAuthUserId } from "../../utils/auth";
 
 export default defineEventHandler(async (event) => {
     const db = useDb();
 
     // Obtener usuario logueado
-    const session = await getUserSession(event);
-    const userId = Number(session?.user?.id);
-
+    const userId = await requireAuthUserId(event);
+    
     if (!userId) {
         throw createError({ statusCode: 401, statusMessage: "No autenticado" });
     }
