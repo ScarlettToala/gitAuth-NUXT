@@ -167,6 +167,9 @@ npm run preview
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Abre un Pull Request
 
+
+OJO con el cors y git hub.get.ts del directorio server. ya que estan ahi las ip que debn cmabairse en caso de usarlo en web o en el movil, ya que si no se configuran bien no funcionará la autenticación con github ni la inserción de datos.
+
 ## Licencia
 
 Este proyecto es privado y está destinado para fines educativos.
