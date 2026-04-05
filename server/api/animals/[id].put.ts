@@ -7,7 +7,7 @@ import { requireAuthUserId } from "../../utils/auth";
 export default defineEventHandler(async (event) => {
   const db = useDb();
   
-  // 👇 PROTEGEMOS LA RUTA (Asegura que el usuario esté logueado)
+  //  PROTEGEMOS LA RUTA (Asegura que el usuario esté logueado)
   const userId = await requireAuthUserId(event);
   
   // 1. LEER EL ID DESDE LA URL
@@ -29,6 +29,19 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  //  Magia aquí: Creamos la fecha por defecto (HOY / AHORA MISMO)
+  let fechaGuardar = new Date(); 
+
+  // Si el frontend SÍ mandó una fecha, intentamos usar esa
+  if (body.seenAt) {
+    const fechaParseada = new Date(body.seenAt);
+    
+    // Si la fecha que mandó es válida (no es NaN), reemplazamos la de hoy por la suya
+    if (!isNaN(fechaParseada.getTime())) {
+      fechaGuardar = fechaParseada;
+    }
+  }
+
   // 3. ACTUALIZAR
   const animalActualizado = await db
     .update(animals)
@@ -36,7 +49,7 @@ export default defineEventHandler(async (event) => {
       name: body.name,
       scientific_name: body.scientific_name,
       category: body.category,
-      seenAt: body.seenAt ? new Date(body.seenAt) : undefined, 
+      seenAt: fechaGuardar, // Guardamos la fecha que decidimos (la de hoy o la que mandó el frontend)
       notes: body.notes,
       imageUrl: body.imageUrl,
     })

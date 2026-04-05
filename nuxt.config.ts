@@ -18,20 +18,24 @@ export default defineNuxtConfig({
       }
     }
   },
-routeRules: {
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000
+  },
+  routeRules: {
     '/**': {
       cors: true,
       headers: {
         // Ponemos la URL exacta de tu Quasar (sin la barra / al final)
-        'Access-Control-Allow-Origin': 'http://localhost:9000', 
+        'Access-Control-Allow-Origin': 'http://192.168.0.20:9000',//#version móvil //'http://localhost:9000', //#version PC
         // Le decimos que SÍ aceptamos cookies/credenciales
         'Access-Control-Allow-Credentials': 'true',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
-      
+
     }
-    
+
   }
-  
+
 });

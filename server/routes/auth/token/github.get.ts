@@ -62,7 +62,7 @@ export default defineOAuthGitHubEventHandler({
       <body>
         <script>
           if (window.opener) {
-            window.opener.postMessage({ token: '${token}' }, 'http://localhost:9000');
+            window.opener.postMessage({ token: '${token}' }, 'http://192.168.0.20:9000');
             window.close();
           }
         </script>
@@ -82,7 +82,7 @@ export default defineOAuthGitHubEventHandler({
       <body>
         <script>
           if (window.opener) {
-            window.opener.postMessage({ error: 'Error al autenticar con GitHub' }, 'http://localhost:9000');
+            window.opener.postMessage({ error: 'Error al autenticar con GitHub' }, 'http://192.168.0.20:9000');
             window.close();
           }
         </script>
